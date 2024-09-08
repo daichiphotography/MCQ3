@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Google Form MCQ Creator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    input, textarea, button {
+      width: 100%;
+      margin: 10px 0;
+      padding: 10px;
+      font-size: 1em;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+  <h1>Google Form MCQ Creator</h1>
+  <form id="mcqForm">
+    <label for="title">Quiz Title:</label>
+    <input type="text" id="title" name="title" placeholder="Enter quiz title" required>
+
+    <label for="questions">Paste Questions and Answers:</label>
+    <textarea id="questions" name="questions" rows="10" placeholder="Question 1, Option A, Option B, Option C, Correct Answer... (Separate each with new line)" required></textarea>
+
+    <button type="submit">Create Google Form</button>
+  </form>
+
+  <script>
+    document.getElementById('mcqForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const title = document.getElementById('title').value;
+      const questions = document.getElementById('questions').value;
+
+      fetch('https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          title: title,
+          questions: questions,
+        }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.url) {
+            alert('Google Form created: ' + data.url);
+          } else {
+            alert('Error creating form.');
+          }
+        });
+    });
+  </script>
+</body>
+</html>
