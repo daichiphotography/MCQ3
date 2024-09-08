@@ -40,9 +40,14 @@
 
   <script>
     document.getElementById('mcqForm').addEventListener('submit', function(e) {
-      e.preventDefault();
+      e.preventDefault(); // Prevents the form from refreshing the page
       const title = document.getElementById('title').value;
       const questions = document.getElementById('questions').value;
+
+      if (!title || !questions) {
+        alert("Please fill in all fields.");
+        return;
+      }
 
       fetch('https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec', {
         method: 'POST',
@@ -61,6 +66,9 @@
           } else {
             alert('Error creating form.');
           }
+        })
+        .catch(error => {
+          alert('There was an error: ' + error);
         });
     });
   </script>
